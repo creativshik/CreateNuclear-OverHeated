@@ -67,7 +67,7 @@ public class ReactorControllerBlockEntity extends SmartBlockEntity implements II
     private static final int WATER_SCAN_RADIUS = 10;
     private static final int BOILING_STAGE_TICKS = 20 * 60;
     private static final int DRYOUT_STAGE_TICKS = 20 * 60;
-    private static final int ALARM_LEAD_TICKS = 20 * 10;
+    private static final int ALARM_LEAD_TICKS = 20 * 30;
     private static final int REACTOR_SCAN_RADIUS_XZ = 4;
     private static final int REACTOR_SCAN_RADIUS_Y = 4;
     private static final Set<ReactorControllerBlockEntity> ACTIVE_CONTROLLERS = Collections.newSetFromMap(new ConcurrentHashMap<>());
@@ -644,9 +644,7 @@ public class ReactorControllerBlockEntity extends SmartBlockEntity implements II
         meltdownRisk = clampPercent(structuralStress * 0.30F + instability * 0.18F + boilingLevel * 0.20F + dryoutLevel * 0.60F + Math.max(0.0F, normalizedHeat - 0.60F) * 30.0F - containmentBonus * 12.0F - backupBonus * 10.0F - shellBonus * 8.0F - pressureBonus * 6.0F - maintenanceBonus * 8.0F);
 
         int totalRunawayTicks = boilingTicks + dryoutTicks;
-        alarmPending = totalRunawayTicks >= (BOILING_STAGE_TICKS + DRYOUT_STAGE_TICKS - ALARM_LEAD_TICKS)
-                || dryoutTicks > 0
-                || meltdownRisk >= 92.0F;
+        alarmPending = totalRunawayTicks >= (BOILING_STAGE_TICKS + DRYOUT_STAGE_TICKS - ALARM_LEAD_TICKS);
 
         if (dryoutTicks >= DRYOUT_STAGE_TICKS && (waterCoverage <= 0.05F || dryoutLevel >= MAX_DRYOUT)) {
             globalMeltdownTriggered = true;

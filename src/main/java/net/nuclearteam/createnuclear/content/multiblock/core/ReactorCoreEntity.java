@@ -25,6 +25,7 @@ public class ReactorCoreEntity extends ReactorCasingEntity {
     private static final float GLOBAL_MELTDOWN_SHOCKWAVE_STRENGTH = 40.0F;
     private static final int REACTOR_ALARM_RADIUS = 256;
     private static final float REACTOR_ALARM_VOLUME = 8.0F;
+    private static final int REACTOR_ALARM_DURATION = 20 * 30;
     private static final int REACTOR_FLASH_RADIUS = 100;
     private static final int REACTOR_FLASH_DURATION = 100;
     private static final int FALLOUT_RADIUS = 100;
@@ -75,7 +76,7 @@ public class ReactorCoreEntity extends ReactorCasingEntity {
 
     private void triggerAlarm(Level world, BlockPos pos) {
         if (world instanceof ServerLevel serverLevel) {
-            CatnipServices.NETWORK.sendToClientsAround(serverLevel, pos, REACTOR_ALARM_RADIUS, new ReactorAlarmPacket(REACTOR_ALARM_VOLUME));
+            CatnipServices.NETWORK.sendToClientsAround(serverLevel, pos, REACTOR_ALARM_RADIUS, new ReactorAlarmPacket(REACTOR_ALARM_VOLUME, REACTOR_ALARM_DURATION));
         }
     }
 
