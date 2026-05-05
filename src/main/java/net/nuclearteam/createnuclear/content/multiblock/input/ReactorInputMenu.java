@@ -8,7 +8,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -62,43 +61,26 @@ public class ReactorInputMenu extends MenuBase<ReactorInputEntity> {
 
     @Override
     protected void addSlots() {
-        // player Slots
+        addSlot(new SlotItemHandler(contentHolder.inventory, 0, 26, 32));
+        addSlot(new SlotItemHandler(contentHolder.inventory, 1, 50, 32));
+        addSlot(new SlotItemHandler(contentHolder.inventory, 2, 74, 32));
+        addSlot(new SlotItemHandler(contentHolder.inventory, 3, 98, 32));
+        addSlot(new SlotItemHandler(contentHolder.inventory, 4, 122, 32));
+        addSlot(new SlotItemHandler(contentHolder.inventory, 5, 146, 32));
+
         for (int hotbarSlot = 0; hotbarSlot < 9; ++hotbarSlot) {
-            this.addSlot(new Slot(player.getInventory(), hotbarSlot, -31 + hotbarSlot * 18, 155));
+            this.addSlot(new Slot(player.getInventory(), hotbarSlot, 8 + hotbarSlot * 18, 154));
         }
 
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {
-                this.addSlot(new Slot(player.getInventory(), col + row * 9 + 9, -31 + col * 18, 97 + row * 18));
+                this.addSlot(new Slot(player.getInventory(), col + row * 9 + 9, 8 + col * 18, 96 + row * 18));
             }
         }
-
-        addSlot(new SlotItemHandler(contentHolder.inventory, 0, 15, 29));
-        addSlot(new SlotItemHandler(contentHolder.inventory, 1, 48, 29));
-        addSlot(new SlotItemHandler(contentHolder.inventory, 2, 81, 20));
-        addSlot(new SlotItemHandler(contentHolder.inventory, 3, 114, 20));
-        addSlot(new SlotItemHandler(contentHolder.inventory, 4, 81, 47));
-        addSlot(new SlotItemHandler(contentHolder.inventory, 5, 114, 47));
-
-
     }
 
     @Override
     protected void saveData(ReactorInputEntity contentHolder) {
     }
 
-    @Override
-    public void clicked(int slotId, int button, ClickType clickType, Player player) {
-        if (clickType == ClickType.THROW) {
-            int[] targetSlotIds = {9, 18, 27, 0, 1, 28, 19, 10, 16, 17, 26, 25, 34, 35, 8, 7};
-            for (int id : targetSlotIds) {
-                if (slotId == id) {
-                    clickType = ClickType.PICKUP;
-                    super.clicked(slotId, button, clickType, player);
-                }
-            }
-            return;
-        }
-        super.clicked(slotId, button, clickType, player);
-    }
 }

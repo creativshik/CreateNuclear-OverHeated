@@ -572,9 +572,9 @@ public class ReactorControllerBlockEntity extends SmartBlockEntity implements II
         cryoCoolerCount = countCryoCoolers();
         cryoCoverage = calculateCryoCoverage();
         float cryoBonus = cryoCoverage / 100.0F;
-        float exchangerBonus = Math.min(heatExchangerCount, 12) * 1.6F;
-        float pumpBonus = Math.min(coolantPumpCount, 12) * 1.0F;
-        heat -= Math.round(iceRodCount * 6.0F + cryoBonus * 40.0F + exchangerBonus + pumpBonus);
+        float exchangerBonus = Math.min(heatExchangerCount, 12) * 2.4F;
+        float pumpBonus = Math.min(coolantPumpCount, 12) * 1.8F;
+        heat -= Math.round(iceRodCount * 9.0F + cryoBonus * 70.0F + exchangerBonus + pumpBonus);
         return heat + overHeat;
     }
 
@@ -586,7 +586,7 @@ public class ReactorControllerBlockEntity extends SmartBlockEntity implements II
         float maxHeat = Math.max(1.0F, CNConfigs.common().rods.maxHeat.get());
         float normalizedHeat = Math.min(2.0F, heat / maxHeat);
         float waterDeficit = 1.0F - waterCoverage;
-        float severeWaterDeficit = Math.max(0.0F, waterDeficit - 0.40F);
+        float severeWaterDeficit = Math.max(0.0F, waterDeficit - 0.55F);
         float rodOverload = Math.max(0.0F, countUraniumRod - countGraphiteRod * maxUraniumPerGraphite);
         float cryoBonus = cryoCoverage / 100.0F;
         float internalCoolingBonus = countGraphiteRod <= 0 ? 0.0F : iceRodCount / (float) countGraphiteRod;
@@ -601,38 +601,55 @@ public class ReactorControllerBlockEntity extends SmartBlockEntity implements II
         float maintenanceBonus = maintenanceScore / 100.0F;
 
         if (heatLevel == IHeat.HeatLevel.WARNING) {
-            structuralStress = clampPercent(structuralStress + 0.05F + normalizedHeat * 0.18F - cryoBonus * 0.10F - internalCoolingBonus * 0.08F - exchangerBonus * 2.0F - serviceBonus - shellBonus * 0.18F - maintenanceBonus * 0.16F);
+            structuralStress = clampPercent(structuralStress + 0.03F + normalizedHeat * 0.10F + waterDeficit * 0.08F - cryoBonus * 0.28F - internalCoolingBonus * 0.18F - exchangerBonus * 2.8F - pumpBonus * 2.0F - serviceBonus * 1.3F - shellBonus * 0.30F - maintenanceBonus * 0.28F);
             failureTicks += 1;
         } else if (heatLevel == IHeat.HeatLevel.DANGER) {
-            structuralStress = clampPercent(structuralStress + 0.15F + normalizedHeat * 0.55F + waterDeficit * 0.50F - cryoBonus * 0.22F - internalCoolingBonus * 0.20F - exchangerBonus * 2.5F - serviceBonus * 1.5F - shellBonus * 0.25F - maintenanceBonus * 0.24F);
+            structuralStress = clampPercent(structuralStress + 0.08F + normalizedHeat * 0.24F + severeWaterDeficit * 0.50F - cryoBonus * 0.40F - internalCoolingBonus * 0.30F - exchangerBonus * 3.2F - pumpBonus * 2.4F - serviceBonus * 1.7F - shellBonus * 0.35F - maintenanceBonus * 0.32F);
             failureTicks += 2;
         } else {
-            structuralStress = clampPercent(structuralStress - 0.50F - exchangerBonus * 1.5F - serviceBonus * 1.5F - shellBonus * 0.20F - maintenanceBonus * 0.20F);
+            structuralStress = clampPercent(structuralStress - 0.65F - exchangerBonus * 2.0F - pumpBonus * 1.5F - serviceBonus * 1.5F - shellBonus * 0.25F - maintenanceBonus * 0.25F);
             failureTicks = Math.max(0, failureTicks - 5);
         }
 
-        float instabilityGain = rodOverload * 0.18F
-                + (heatLevel == IHeat.HeatLevel.DANGER ? normalizedHeat * 0.24F : heatLevel == IHeat.HeatLevel.WARNING ? normalizedHeat * 0.05F : 0.0F)
-                + severeWaterDeficit * 0.55F
-                - cryoBonus * 0.20F
-                - internalCoolingBonus * 0.18F
-                - pressureBonus * 0.12F
-                - maintenanceBonus * 0.16F;
+        float stabilitySupport = cryoBonus * 0.42F
+                + internalCoolingBonus * 0.28F
+                + pressureBonus * 0.24F
+                + maintenanceBonus * 0.28F
+                + containmentBonus * 0.22F
+                + shellBonus * 0.18F
+                + pumpBonus * 2.5F
+                + exchangerBonus * 2.0F
+                + ventBonus * 1.5F;
+        float instabilityGain = rodOverload * 0.08F
+                + (heatLevel == IHeat.HeatLevel.DANGER ? normalizedHeat * 0.08F : heatLevel == IHeat.HeatLevel.WARNING ? normalizedHeat * 0.025F : 0.0F)
+                + severeWaterDeficit * 0.34F
+                - stabilitySupport;
         float instabilityDecay = heatLevel == IHeat.HeatLevel.DANGER
-                ? 0.08F
-                : heatLevel == IHeat.HeatLevel.WARNING
                 ? 0.22F
-                : 0.55F;
+                : heatLevel == IHeat.HeatLevel.WARNING
+                ? 0.40F
+                : 0.70F;
         if (waterCoverage >= 0.90F) {
-            instabilityDecay += 0.30F;
+            instabilityDecay += 0.55F;
+        } else if (waterCoverage >= 0.75F) {
+            instabilityDecay += 0.25F;
         }
         if (reactorTier >= 2) {
-            instabilityDecay += 0.15F;
+            instabilityDecay += 0.25F;
         }
         instability = clampPercent(instability + instabilityGain - instabilityDecay);
 
-        boolean runawayConditions = heatLevel == IHeat.HeatLevel.DANGER
-                || (heatLevel == IHeat.HeatLevel.WARNING && (waterCoverage < (0.35F - pumpBonus) || structuralStress >= (90.0F + backupBonus * 100.0F + shellBonus * 4.0F) || instability >= (92.0F + containmentBonus * 5.0F + pressureBonus * 4.0F)));
+        boolean committedDryout = dryoutTicks >= DRYOUT_STAGE_TICKS - ALARM_LEAD_TICKS;
+        boolean dangerousHeatRunaway = heatLevel == IHeat.HeatLevel.DANGER
+                && (waterCoverage < (0.55F - pumpBonus)
+                || structuralStress >= (82.0F + backupBonus * 100.0F + shellBonus * 8.0F)
+                || instability >= (88.0F + containmentBonus * 6.0F + pressureBonus * 5.0F)
+                || meltdownRisk >= 84.0F);
+        boolean warningRunaway = heatLevel == IHeat.HeatLevel.WARNING
+                && (waterCoverage < (0.25F - pumpBonus)
+                || structuralStress >= (94.0F + backupBonus * 100.0F + shellBonus * 6.0F)
+                || instability >= (96.0F + containmentBonus * 5.0F + pressureBonus * 4.0F));
+        boolean runawayConditions = committedDryout || dangerousHeatRunaway || warningRunaway;
 
         if (runawayConditions) {
             progressMeltdownSequence(heatLevel);
@@ -646,7 +663,7 @@ public class ReactorControllerBlockEntity extends SmartBlockEntity implements II
         int totalRunawayTicks = boilingTicks + dryoutTicks;
         alarmPending = totalRunawayTicks >= (BOILING_STAGE_TICKS + DRYOUT_STAGE_TICKS - ALARM_LEAD_TICKS);
 
-        if (dryoutTicks >= DRYOUT_STAGE_TICKS && (waterCoverage <= 0.05F || dryoutLevel >= MAX_DRYOUT)) {
+        if (dryoutTicks >= DRYOUT_STAGE_TICKS && dryoutLevel >= MAX_DRYOUT) {
             globalMeltdownTriggered = true;
             meltdownTriggered = true;
         }
@@ -754,6 +771,9 @@ public class ReactorControllerBlockEntity extends SmartBlockEntity implements II
             if (dryoutTicks > DRYOUT_STAGE_TICKS / 2) {
                 evaporation += 3;
             }
+            int reserveBlocks = countWaterReserveBlocks();
+            int remainingEvaporationSteps = Math.max(1, (DRYOUT_STAGE_TICKS - dryoutTicks) / 10);
+            evaporation = Math.max(evaporation, (int) Math.ceil(reserveBlocks / (float) remainingEvaporationSteps) + 2);
             evaporation = Math.max(1, evaporation
                     - Math.min(coolantPumpCount / 2, 3)
                     - Math.min(emergencyVentCount / 3, 2)
