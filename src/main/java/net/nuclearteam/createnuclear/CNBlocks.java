@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -135,6 +136,145 @@ public class CNBlocks {
                             .modelFile(p.models().getExistingFile(p.modLoc("block/reactor/cooler/block")))
                             .build()))
             .tag(BlockTags.NEEDS_DIAMOND_TOOL)
+            .simpleItem()
+            .transform(pickaxeOnly())
+            .register();
+
+    public static final BlockEntry<ReactorCooler> CRYO_COOLER =
+        CreateNuclear.REGISTRATE.block("cryo_cooler", ReactorCooler::new)
+            .properties(p -> p.explosionResistance(4F)
+                    .destroyTime(4F)
+                    .sound(SoundType.GLASS))
+            .blockstate((c,p) ->
+                    p.getVariantBuilder(c.getEntry()).forAllStates((state) -> ConfiguredModel.builder()
+                            .modelFile(p.models().getExistingFile(p.modLoc("block/reactor/cryo_cooler/block")))
+                            .build()))
+            .tag(BlockTags.NEEDS_DIAMOND_TOOL)
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, c.get(), 4)
+                    .unlockedBy("has_reactor_cooler", RegistrateRecipeProvider.has(CNBlocks.REACTOR_COOLER.get()))
+                    .define('C', CNBlocks.REACTOR_COOLER)
+                    .define('I', Items.BLUE_ICE)
+                    .define('S', CNTags.forgeItemTag("ingots/steel"))
+                    .pattern("ICI")
+                    .pattern("SCS")
+                    .pattern("ICI")
+                    .showNotification(true)
+                    .save(p, CreateNuclear.asResource("crafting/reactor/" + c.getName())))
+            .simpleItem()
+            .transform(pickaxeOnly())
+            .register();
+
+    public static final BlockEntry<Block> COOLANT_PUMP =
+        CreateNuclear.REGISTRATE.block("coolant_pump", Block::new)
+            .initialProperties(SharedProperties::stone)
+            .properties(p -> p.explosionResistance(6F).destroyTime(4F).sound(SoundType.METAL))
+            .blockstate((c, p) ->
+                    p.getVariantBuilder(c.getEntry()).forAllStates(state -> ConfiguredModel.builder()
+                            .modelFile(p.models().getExistingFile(p.modLoc("block/reactor/service/coolant_pump")))
+                            .build()))
+            .tag(BlockTags.NEEDS_DIAMOND_TOOL)
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, c.get(), 2)
+                    .unlockedBy("has_reactor_casing", RegistrateRecipeProvider.has(CNBlocks.REACTOR_CASING.get()))
+                    .define('C', CNBlocks.REACTOR_CASING)
+                    .define('P', Items.COPPER_BLOCK)
+                    .define('S', CNTags.forgeItemTag("ingots/steel"))
+                    .pattern("SPS")
+                    .pattern("PCP")
+                    .pattern("SPS")
+                    .showNotification(true)
+                    .save(p, CreateNuclear.asResource("crafting/reactor/" + c.getName())))
+            .simpleItem()
+            .transform(pickaxeOnly())
+            .register();
+
+    public static final BlockEntry<Block> HEAT_EXCHANGER =
+        CreateNuclear.REGISTRATE.block("heat_exchanger", Block::new)
+            .initialProperties(SharedProperties::stone)
+            .properties(p -> p.explosionResistance(6F).destroyTime(4F).sound(SoundType.METAL))
+            .blockstate((c, p) ->
+                    p.getVariantBuilder(c.getEntry()).forAllStates(state -> ConfiguredModel.builder()
+                            .modelFile(p.models().getExistingFile(p.modLoc("block/reactor/service/heat_exchanger")))
+                            .build()))
+            .tag(BlockTags.NEEDS_DIAMOND_TOOL)
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, c.get(), 2)
+                    .unlockedBy("has_reactor_casing", RegistrateRecipeProvider.has(CNBlocks.REACTOR_CASING.get()))
+                    .define('C', CNBlocks.REACTOR_CASING)
+                    .define('B', Items.COPPER_BLOCK)
+                    .define('S', CNTags.forgeItemTag("ingots/steel"))
+                    .pattern("SBS")
+                    .pattern("BCB")
+                    .pattern("SBS")
+                    .showNotification(true)
+                    .save(p, CreateNuclear.asResource("crafting/reactor/" + c.getName())))
+            .simpleItem()
+            .transform(pickaxeOnly())
+            .register();
+
+    public static final BlockEntry<Block> EMERGENCY_VENT =
+        CreateNuclear.REGISTRATE.block("emergency_vent", Block::new)
+            .initialProperties(SharedProperties::stone)
+            .properties(p -> p.explosionResistance(6F).destroyTime(4F).sound(SoundType.METAL))
+            .blockstate((c, p) ->
+                    p.getVariantBuilder(c.getEntry()).forAllStates(state -> ConfiguredModel.builder()
+                            .modelFile(p.models().getExistingFile(p.modLoc("block/reactor/service/emergency_vent")))
+                            .build()))
+            .tag(BlockTags.NEEDS_DIAMOND_TOOL)
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, c.get(), 2)
+                    .unlockedBy("has_reactor_casing", RegistrateRecipeProvider.has(CNBlocks.REACTOR_CASING.get()))
+                    .define('C', CNBlocks.REACTOR_CASING)
+                    .define('I', Items.IRON_BARS)
+                    .define('S', CNTags.forgeItemTag("ingots/steel"))
+                    .pattern("SIS")
+                    .pattern("ICI")
+                    .pattern("SIS")
+                    .showNotification(true)
+                    .save(p, CreateNuclear.asResource("crafting/reactor/" + c.getName())))
+            .simpleItem()
+            .transform(pickaxeOnly())
+            .register();
+
+    public static final BlockEntry<Block> SERVICE_HATCH =
+        CreateNuclear.REGISTRATE.block("service_hatch", Block::new)
+            .initialProperties(SharedProperties::stone)
+            .properties(p -> p.explosionResistance(6F).destroyTime(4F).sound(SoundType.METAL))
+            .blockstate((c, p) ->
+                    p.getVariantBuilder(c.getEntry()).forAllStates(state -> ConfiguredModel.builder()
+                            .modelFile(p.models().getExistingFile(p.modLoc("block/reactor/service/service_hatch")))
+                            .build()))
+            .tag(BlockTags.NEEDS_DIAMOND_TOOL)
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, c.get(), 2)
+                    .unlockedBy("has_reactor_casing", RegistrateRecipeProvider.has(CNBlocks.REACTOR_CASING.get()))
+                    .define('C', CNBlocks.REACTOR_CASING)
+                    .define('D', Items.IRON_DOOR)
+                    .define('S', CNTags.forgeItemTag("ingots/steel"))
+                    .pattern("SDS")
+                    .pattern("DCD")
+                    .pattern("SDS")
+                    .showNotification(true)
+                    .save(p, CreateNuclear.asResource("crafting/reactor/" + c.getName())))
+            .simpleItem()
+            .transform(pickaxeOnly())
+            .register();
+
+    public static final BlockEntry<Block> BACKUP_POWER_PORT =
+        CreateNuclear.REGISTRATE.block("backup_power_port", Block::new)
+            .initialProperties(SharedProperties::stone)
+            .properties(p -> p.explosionResistance(6F).destroyTime(4F).sound(SoundType.METAL))
+            .blockstate((c, p) ->
+                    p.getVariantBuilder(c.getEntry()).forAllStates(state -> ConfiguredModel.builder()
+                            .modelFile(p.models().getExistingFile(p.modLoc("block/reactor/service/backup_power_port")))
+                            .build()))
+            .tag(BlockTags.NEEDS_DIAMOND_TOOL)
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, c.get(), 2)
+                    .unlockedBy("has_reactor_casing", RegistrateRecipeProvider.has(CNBlocks.REACTOR_CASING.get()))
+                    .define('C', CNBlocks.REACTOR_CASING)
+                    .define('R', Items.REDSTONE_BLOCK)
+                    .define('S', CNTags.forgeItemTag("ingots/steel"))
+                    .pattern("SRS")
+                    .pattern("RCR")
+                    .pattern("SRS")
+                    .showNotification(true)
+                    .save(p, CreateNuclear.asResource("crafting/reactor/" + c.getName())))
             .simpleItem()
             .transform(pickaxeOnly())
             .register();
@@ -504,5 +644,21 @@ public class CNBlocks {
 
     public static void register() {
         CreateNuclear.LOGGER.info("Registering ModBlocks for " + CreateNuclear.MOD_ID);
+    }
+
+    public static boolean isCryoCooler(BlockState state) {
+        return state.is(CRYO_COOLER.get());
+    }
+
+    public static boolean isReactorCoolingBlock(BlockState state) {
+        return state.is(REACTOR_COOLER.get()) || isCryoCooler(state);
+    }
+
+    public static boolean isReactorServiceBlock(BlockState state) {
+        return state.is(COOLANT_PUMP.get())
+                || state.is(HEAT_EXCHANGER.get())
+                || state.is(EMERGENCY_VENT.get())
+                || state.is(SERVICE_HATCH.get())
+                || state.is(BACKUP_POWER_PORT.get());
     }
 }

@@ -102,6 +102,81 @@ public class CNItems {
             .tag(CNTags.forgeItemTag("rods"), CNItemTags.COOLER.tag)
             .register(),
 
+        ICE_ROD = CreateNuclear.REGISTRATE
+            .item("ice_rod", Item::new)
+            .tag(CNTags.forgeItemTag("rods"), CNItemTags.COOLER.tag)
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 2)
+                    .unlockedBy("has_graphite_rod", RegistrateRecipeProvider.has(CNItems.GRAPHITE_ROD.get()))
+                    .define('G', CNItems.GRAPHITE_ROD)
+                    .define('I', Items.BLUE_ICE)
+                    .pattern(" I ")
+                    .pattern(" G ")
+                    .pattern(" I ")
+                    .showNotification(true)
+                    .save(p, CreateNuclear.asResource("crafting/" + c.getName())))
+            .model((c, p) -> p.generated(c, CreateNuclear.asResource("item/ice_rod")))
+            .register(),
+
+        COOLANT_FILTER = CreateNuclear.REGISTRATE
+            .item("coolant_filter", Item::new)
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 4)
+                    .unlockedBy("has_reactor_casing", RegistrateRecipeProvider.has(CNBlocks.REACTOR_CASING.get()))
+                    .define('C', Items.COPPER_INGOT)
+                    .define('P', Items.PAPER)
+                    .define('S', CNTags.forgeItemTag("ingots/steel"))
+                    .pattern("SPS")
+                    .pattern("PCP")
+                    .pattern("SPS")
+                    .showNotification(true)
+                    .save(p, CreateNuclear.asResource("crafting/" + c.getName())))
+            .model((c, p) -> p.generated(c, CreateNuclear.asResource("item/coolant_filter")))
+            .register(),
+
+        CONTROL_ASSEMBLY = CreateNuclear.REGISTRATE
+            .item("control_assembly", Item::new)
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 2)
+                    .unlockedBy("has_graphite_rod", RegistrateRecipeProvider.has(CNItems.GRAPHITE_ROD.get()))
+                    .define('G', CNItems.GRAPHITE_ROD)
+                    .define('L', CNTags.forgeItemTag("ingots/lead"))
+                    .define('S', CNTags.forgeItemTag("ingots/steel"))
+                    .pattern(" L ")
+                    .pattern("SGS")
+                    .pattern(" L ")
+                    .showNotification(true)
+                    .save(p, CreateNuclear.asResource("crafting/" + c.getName())))
+            .model((c, p) -> p.generated(c, CreateNuclear.asResource("item/control_assembly")))
+            .register(),
+
+        REACTOR_SEALANT = CreateNuclear.REGISTRATE
+            .item("reactor_sealant", Item::new)
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 4)
+                    .unlockedBy("has_lead_ingot", RegistrateRecipeProvider.has(CNTags.forgeItemTag("ingots/lead")))
+                    .define('L', CNTags.forgeItemTag("ingots/lead"))
+                    .define('S', CNTags.forgeItemTag("ingots/steel"))
+                    .define('G', CNTags.forgeItemTag("glass_blocks"))
+                    .pattern("LGL")
+                    .pattern("GSG")
+                    .pattern("LGL")
+                    .showNotification(true)
+                    .save(p, CreateNuclear.asResource("crafting/" + c.getName())))
+            .model((c, p) -> p.generated(c, CreateNuclear.asResource("item/reactor_sealant")))
+            .register(),
+
+        CRYO_CARTRIDGE = CreateNuclear.REGISTRATE
+            .item("cryo_cartridge", Item::new)
+            .recipe((c, p) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, c.get(), 4)
+                    .unlockedBy("has_blue_ice", RegistrateRecipeProvider.has(Items.BLUE_ICE))
+                    .define('I', Items.BLUE_ICE)
+                    .define('C', Items.COPPER_INGOT)
+                    .define('S', CNTags.forgeItemTag("ingots/steel"))
+                    .pattern("SIS")
+                    .pattern("ICI")
+                    .pattern("SIS")
+                    .showNotification(true)
+                    .save(p, CreateNuclear.asResource("crafting/" + c.getName())))
+            .model((c, p) -> p.generated(c, CreateNuclear.asResource("item/cryo_cartridge")))
+            .register(),
+
         LEAD_INGOT = CreateNuclear.REGISTRATE
             .item("lead_ingot", Item::new)
             .tag(CNTags.forgeItemTag("ingots"), CNTags.forgeItemTag("ingots/lead"))

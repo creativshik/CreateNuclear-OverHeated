@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "createnuclear:block/reactor/service/service_hatch",
+    "particle": "createnuclear:block/reactor/service/service_hatch"
+  }
+}

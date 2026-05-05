@@ -7,7 +7,9 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 import net.nuclearteam.createnuclear.content.multiblock.bluePrintItem.ReactorBluePrintItemPacket;
+import net.nuclearteam.createnuclear.content.multiblock.controller.ReactorAlarmPacket;
 import net.nuclearteam.createnuclear.content.multiblock.controller.EventTriggerPacket;
+import net.nuclearteam.createnuclear.content.multiblock.controller.ReactorExplosionFlashPacket;
 
 import java.util.Locale;
 
@@ -16,6 +18,8 @@ public enum CNPackets implements BasePacketPayload.PacketTypeProvider {
 
     // To client
     TRIGGER_EVENT_TEXT_OVERLAY(EventTriggerPacket.class, EventTriggerPacket.STREAM_CODEC),
+    REACTOR_ALARM(ReactorAlarmPacket.class, ReactorAlarmPacket.STREAM_CODEC),
+    REACTOR_EXPLOSION_FLASH(ReactorExplosionFlashPacket.class, ReactorExplosionFlashPacket.STREAM_CODEC),
     ;
 
     private final CatnipPacketRegistry.PacketType<?> type;

@@ -12,7 +12,7 @@ group = mod_group_id
 
 
 base {
-    archivesName = 'createnuclear'
+    archivesName = 'createnuclear-overheated'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)

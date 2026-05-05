@@ -36,8 +36,8 @@ public class ReactorInputMenu extends MenuBase<ReactorInputEntity> {
         Slot clickedSlot = getSlot(index);
         if (!clickedSlot.hasItem()) return ItemStack.EMPTY;
         ItemStack stack = clickedSlot.getItem();
-        if (index < 2) moveItemStackTo(stack, 2, slots.size(), false);
-        else moveItemStackTo(stack, 0, 2, false);
+        if (index < 6) moveItemStackTo(stack, 6, slots.size(), false);
+        else moveItemStackTo(stack, 0, 6, false);
         return ItemStack.EMPTY;
     }
 
@@ -73,11 +73,12 @@ public class ReactorInputMenu extends MenuBase<ReactorInputEntity> {
             }
         }
 
-        Slot slot1 = new SlotItemHandler(contentHolder.inventory, 0, 24, 29);
-        Slot slot2 = new SlotItemHandler(contentHolder.inventory, 1, 57, 29);
-
-        addSlot(slot1);
-        addSlot(slot2);
+        addSlot(new SlotItemHandler(contentHolder.inventory, 0, 15, 29));
+        addSlot(new SlotItemHandler(contentHolder.inventory, 1, 48, 29));
+        addSlot(new SlotItemHandler(contentHolder.inventory, 2, 81, 20));
+        addSlot(new SlotItemHandler(contentHolder.inventory, 3, 114, 20));
+        addSlot(new SlotItemHandler(contentHolder.inventory, 4, 81, 47));
+        addSlot(new SlotItemHandler(contentHolder.inventory, 5, 114, 47));
 
 
     }

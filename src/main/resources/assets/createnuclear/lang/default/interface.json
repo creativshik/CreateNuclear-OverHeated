@@ -1,5 +1,5 @@
 {
-  "itemGroup.createnuclear.main": "Create Nuclear",
+  "itemGroup.createnuclear.main": "Create: Nuclear OverHeated",
   "itemgroup.uranium": "Uranium Group",
 
   "createnuclear.enriched.fan.recipe": "Bulk Enriching",
@@ -8,6 +8,17 @@
 
   "gui.createnuclear.reactor_controller.title": "Reactor Controller",
   "gui.createnuclear.reactor_input.title": "Reactor Input Storage",
+  "block.createnuclear.cryo_cooler": "Cryo Cooler",
+  "block.createnuclear.coolant_pump": "Coolant Pump",
+  "block.createnuclear.heat_exchanger": "Heat Exchanger",
+  "block.createnuclear.emergency_vent": "Emergency Vent",
+  "block.createnuclear.service_hatch": "Service Hatch",
+  "block.createnuclear.backup_power_port": "Backup Power Port",
+  "item.createnuclear.ice_rod": "Ice Rod",
+  "item.createnuclear.coolant_filter": "Coolant Filter",
+  "item.createnuclear.control_assembly": "Control Assembly",
+  "item.createnuclear.reactor_sealant": "Reactor Sealant",
+  "item.createnuclear.cryo_cartridge": "Cryo Cartridge",
 
   "createnuclear.tooltip.heatLevel": "Heat Level",
   "createnuclear.tooltip.heatLevel.none": "None",
@@ -20,6 +31,7 @@
   "createnuclear.tooltip.item.uranium.rod": "Uranium Rod: ",
   "createnuclear.tooltip.item.graphene.rod": "Graphite Rod: ",
   "createnuclear.tooltip.item.unknown.rod": "Unknown: ",
-  "createnuclear.gui.reactor_controller.info_header.title": "Heat value"
+  "createnuclear.gui.reactor_controller.info_header.title": "Heat value",
+  "subtitles.createnuclear.reactor_alarm": "Reactor alarm"
 
 }

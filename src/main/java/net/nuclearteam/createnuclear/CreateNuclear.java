@@ -82,6 +82,7 @@ public class CreateNuclear {
         CNConfigs.register(modLoadingContext, modContainer);
 
         CNCreativeModeTabs.register(modEventBus);
+        CNSoundEvents.register(modEventBus);
         CNEffects.register(modEventBus);
         CNPotions.register(modEventBus);
         CNRecipeTypes.register(modEventBus);

@@ -145,7 +145,18 @@
   "item.minecraft.tipped_arrow.effect.potion_of_radiation_1": "Arrow of Radiation",
   "item.minecraft.tipped_arrow.effect.potion_of_radiation_2": "Arrow of Radiation",
   "item.minecraft.tipped_arrow.effect.potion_of_radiation_augment_1": "Arrow of Radiation",
-  "itemGroup.createnuclear.main": "Create Nuclear",
+  "itemGroup.createnuclear.main": "Create: Nuclear OverHeated",
+  "block.createnuclear.cryo_cooler": "Cryo Cooler",
+  "block.createnuclear.coolant_pump": "Coolant Pump",
+  "block.createnuclear.heat_exchanger": "Heat Exchanger",
+  "block.createnuclear.emergency_vent": "Emergency Vent",
+  "block.createnuclear.service_hatch": "Service Hatch",
+  "block.createnuclear.backup_power_port": "Backup Power Port",
+  "item.createnuclear.ice_rod": "Ice Rod",
+  "item.createnuclear.coolant_filter": "Coolant Filter",
+  "item.createnuclear.control_assembly": "Control Assembly",
+  "item.createnuclear.reactor_sealant": "Reactor Sealant",
+  "item.createnuclear.cryo_cartridge": "Cryo Cartridge",
   "itemgroup.uranium": "Uranium Group",
   "reactor.info.assembled.creator": "Reactor has been assembled",
   "reactor.info.assembled.destroyer": "Reactor has been disassembled",
@@ -165,5 +176,6 @@
   "tag.item.createnuclear.fuel": "Fuel",
   "tag.item.minecraft.all.campfires": "All Campfires",
   "tag.item.minecraft.campfires": "Campfires",
-  "tag.item.trinkets.head.face": "Head Face"
+  "tag.item.trinkets.head.face": "Head Face",
+  "subtitles.createnuclear.reactor_alarm": "Reactor alarm"
 }
